@@ -17,7 +17,7 @@ func main() {
 	// Call concat
 	if err := L.CallByParam(lua.P{
 		Fn:      L.GetGlobal("concat"), // function name
-		NRet:    1,                     // number of returns
+		NRet:    2,                     // number of returns
 		Protect: true,                  // return err or panic
 	}, lua.LString("Go"), lua.LString("Lua")); err != nil {
 		panic(err)
@@ -25,9 +25,17 @@ func main() {
 
 	// Get the returned value from the stack and cast it to a Lua string
 	if str, ok := L.Get(-1).(lua.LString); ok {
-		fmt.Println(str)
+		fmt.Println(str) // c
 	}
 
 	// Pop return value off stack
 	L.Pop(1)
+
+	if str, ok := L.Get(-1).(lua.LString); ok {
+		fmt.Println(str) // Go + Lua
+	}
+
+	// Pop return value off stack
+	L.Pop(1)
+
 }
